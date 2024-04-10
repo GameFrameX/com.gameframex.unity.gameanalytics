@@ -1,8 +1,8 @@
 ﻿## HOMEPAGE
+
 GameFrameX 的 GameAnalytics 游戏数据分析的组件
 
- **GameAnalytics 游戏数据分析的组件 (GameAnalytics Component)** - 提供游戏开发者集成和使用游戏数据分析的功能的接口。
-
+**GameAnalytics 游戏数据分析的组件 (GameAnalytics Component)** - 提供游戏开发者集成和使用游戏数据分析的功能的接口。
 
 # 使用文档(文档编写于GPT4)
 
@@ -146,7 +146,6 @@ public void Event(string eventName, float eventValue, Dictionary<string, string>
 - 工程中应引入命名空间`GameFrameX.GameAnalytics.Runtime`。
 - 确保`GameAnalyticsManager`被正确实例化，并已经通过`GameFramework`注册。
 - 对于自定义字段，使用`Dictionary<string, string>`类型保持键值对的数据结构。
-
 
 # 使用方式(任选其一)
 
