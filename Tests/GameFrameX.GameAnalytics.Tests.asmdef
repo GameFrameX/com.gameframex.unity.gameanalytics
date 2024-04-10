@@ -1,0 +1,18 @@
+{
+    "name": "GameFrameX.GameAnalytics.Tests",
+    "references": [
+        "GameFrameX.GameAnalytics.Runtime"
+    ],
+    "rootNamespace": "GameFrameX.GameAnalytics.Tests",
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
