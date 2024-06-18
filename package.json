@@ -1,5 +1,5 @@
 {
-  "name": "com.alianblank.gameframex.unity.gameanalytics",
+  "name": "com.gameframex.unity.gameanalytics",
   "displayName": "Game Frame X Game Analytics",
   "category": "Game Framework X",
   "description": "Game Frame X Game Analytics Component",
@@ -9,8 +9,8 @@
     "Game Framework X"
   ],
   "repository": {
-    "name": "com.alianblank.gameframex.unity.gameanalytics",
-    "url": "https://github.com/AlianBlank/com.alianblank.gameframex.unity.gameanalytics.git",
+    "name": "com.gameframex.unity.gameanalytics",
+    "url": "https://github.com/AlianBlank/com.gameframex.unity.gameanalytics.git",
     "type": "git"
   },
   "author": {
