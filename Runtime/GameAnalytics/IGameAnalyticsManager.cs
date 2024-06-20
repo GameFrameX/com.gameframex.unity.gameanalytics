@@ -5,18 +5,34 @@ namespace GameFrameX.GameAnalytics.Runtime
     /// <summary>
     /// 游戏数据分析组件。
     /// </summary>
-    internal interface IGameAnalyticsManager
+    public interface IGameAnalyticsManager
     {
         /// <summary>
         /// 初始化
         /// </summary>
-        void Init();
+        /// <param name="appid">应用ID</param>
+        /// <param name="channel">渠道</param>
+        /// <param name="appKey">Key</param>
+        /// <param name="secretKey">安全校验密码</param>
+        void Init(string appid, string channel, string appKey, string secretKey);
 
         /// <summary>
         /// 开始计时
         /// </summary>
         /// <param name="eventName">事件名称</param>
         void StartTimer(string eventName);
+
+        /// <summary>
+        /// 暂停计时
+        /// </summary>
+        /// <param name="eventName">事件名称</param>
+        void PauseTimer(string eventName);
+
+        /// <summary>
+        /// 恢复计时
+        /// </summary>
+        /// <param name="eventName">事件名称</param>
+        void ResumeTimer(string eventName);
 
         /// <summary>
         /// 结束计时

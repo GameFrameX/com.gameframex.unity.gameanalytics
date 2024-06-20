@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using GameFrameX.Runtime;
 using UnityEngine;
 
@@ -11,20 +12,19 @@ namespace GameFrameX.GameAnalytics.Runtime
     [AddComponentMenu("Game Framework/GameAnalytics")]
     public sealed class GameAnalyticsComponent : GameFrameworkComponent
     {
-        private bool _isInit = false;
-        private IGameAnalyticsManager _gameAnalyticsManager;
+        private bool m_IsInit = false;
+        [SerializeField] private List<GameAnalyticsComponentProvider> m_gameAnalyticsComponentProviders = new List<GameAnalyticsComponentProvider>();
+        private List<IGameAnalyticsManager> m_GameAnalyticsManager;
 
         protected override void Awake()
         {
+            m_GameAnalyticsManager = new List<IGameAnalyticsManager>();
+            IsAutoRegister = false;
             base.Awake();
-            new GameAnalyticsManager();
-            _gameAnalyticsManager = GameFrameworkEntry.GetModule<IGameAnalyticsManager>();
-            if (_gameAnalyticsManager == null)
-            {
-                Log.Fatal("GameAnalytics manager is invalid.");
-                return;
-            }
+        }
 
+        private void OnEnable()
+        {
             Init();
         }
 
@@ -33,8 +33,31 @@ namespace GameFrameX.GameAnalytics.Runtime
         /// </summary>
         public void Init()
         {
-            _gameAnalyticsManager.Init();
-            _isInit = true;
+            if (m_IsInit)
+            {
+                return;
+            }
+
+            foreach (var gameAnalyticsComponentProvider in m_gameAnalyticsComponentProviders)
+            {
+                if (gameAnalyticsComponentProvider.ComponentType.IsNotNullOrWhiteSpace())
+                {
+                    var gameAnalyticsComponentType = Utility.Assembly.GetType(gameAnalyticsComponentProvider.ComponentType);
+                    if (gameAnalyticsComponentType == null)
+                    {
+                        Log.Error($"Can not find component type '{gameAnalyticsComponentProvider.ComponentType}'.");
+                        continue;
+                    }
+
+                    if (Activator.CreateInstance(gameAnalyticsComponentType) is IGameAnalyticsManager gameAnalyticsManager)
+                    {
+                        gameAnalyticsManager.Init(gameAnalyticsComponentProvider.AppId, gameAnalyticsComponentProvider.Channel, gameAnalyticsComponentProvider.AppKey, gameAnalyticsComponentProvider.SecretKey);
+                        m_GameAnalyticsManager.Add(gameAnalyticsManager);
+                    }
+                }
+            }
+
+            m_IsInit = true;
         }
 
         /// <summary>
@@ -43,12 +66,16 @@ namespace GameFrameX.GameAnalytics.Runtime
         /// <param name="eventName">事件名称</param>
         public void StartTimer(string eventName)
         {
-            if (!_isInit)
+            GameFrameworkGuard.NotNullOrEmpty(eventName, nameof(eventName));
+            if (!m_IsInit)
             {
                 return;
             }
 
-            _gameAnalyticsManager.StartTimer(eventName);
+            foreach (var gameAnalyticsManager in m_GameAnalyticsManager)
+            {
+                gameAnalyticsManager.StartTimer(eventName);
+            }
         }
 
         /// <summary>
@@ -57,12 +84,16 @@ namespace GameFrameX.GameAnalytics.Runtime
         /// <param name="eventName">事件名称</param>
         public void StopTimer(string eventName)
         {
-            if (!_isInit)
+            GameFrameworkGuard.NotNullOrEmpty(eventName, nameof(eventName));
+            if (!m_IsInit)
             {
                 return;
             }
 
-            _gameAnalyticsManager.StopTimer(eventName);
+            foreach (var gameAnalyticsManager in m_GameAnalyticsManager)
+            {
+                gameAnalyticsManager.StopTimer(eventName);
+            }
         }
 
         /// <summary>
@@ -71,12 +102,16 @@ namespace GameFrameX.GameAnalytics.Runtime
         /// <param name="eventName">事件名称</param>
         public void Event(string eventName)
         {
-            if (!_isInit)
+            GameFrameworkGuard.NotNullOrEmpty(eventName, nameof(eventName));
+            if (!m_IsInit)
             {
                 return;
             }
 
-            _gameAnalyticsManager.Event(eventName);
+            foreach (var gameAnalyticsManager in m_GameAnalyticsManager)
+            {
+                gameAnalyticsManager.Event(eventName);
+            }
         }
 
         /// <summary>
@@ -86,12 +121,16 @@ namespace GameFrameX.GameAnalytics.Runtime
         /// <param name="eventValue">事件数值</param>
         public void Event(string eventName, float eventValue)
         {
-            if (!_isInit)
+            GameFrameworkGuard.NotNullOrEmpty(eventName, nameof(eventName));
+            if (!m_IsInit)
             {
                 return;
             }
 
-            _gameAnalyticsManager.Event(eventName, eventValue);
+            foreach (var gameAnalyticsManager in m_GameAnalyticsManager)
+            {
+                gameAnalyticsManager.Event(eventName, eventValue);
+            }
         }
 
         /// <summary>
@@ -101,7 +140,8 @@ namespace GameFrameX.GameAnalytics.Runtime
         /// <param name="customF">自定义字段</param>
         public void Event(string eventName, Dictionary<string, string> customF)
         {
-            if (!_isInit)
+            GameFrameworkGuard.NotNullOrEmpty(eventName, nameof(eventName));
+            if (!m_IsInit)
             {
                 return;
             }
@@ -113,7 +153,10 @@ namespace GameFrameX.GameAnalytics.Runtime
                 value[kv.Key] = kv.Value;
             }
 
-            _gameAnalyticsManager.Event(eventName, value);
+            foreach (var gameAnalyticsManager in m_GameAnalyticsManager)
+            {
+                gameAnalyticsManager.Event(eventName, value);
+            }
         }
 
         /// <summary>
@@ -124,7 +167,8 @@ namespace GameFrameX.GameAnalytics.Runtime
         /// <param name="customF">自定义字段</param>
         public void Event(string eventName, float eventValue, Dictionary<string, string> customF)
         {
-            if (!_isInit)
+            GameFrameworkGuard.NotNullOrEmpty(eventName, nameof(eventName));
+            if (!m_IsInit)
             {
                 return;
             }
@@ -136,7 +180,44 @@ namespace GameFrameX.GameAnalytics.Runtime
                 value[kv.Key] = kv.Value;
             }
 
-            _gameAnalyticsManager.Event(eventName, eventValue, value);
+            foreach (var gameAnalyticsManager in m_GameAnalyticsManager)
+            {
+                gameAnalyticsManager.Event(eventName, eventValue, value);
+            }
         }
+    }
+
+    [Serializable]
+    public class GameAnalyticsComponentProvider
+    {
+        /// <summary>
+        /// 应用ID
+        /// </summary>
+        public string AppId;
+
+        /// <summary>
+        /// 渠道
+        /// </summary>
+        public string Channel;
+
+        /// <summary>
+        /// Key
+        /// </summary>
+        public string AppKey;
+
+        /// <summary>
+        /// 安全校验密码
+        /// </summary>
+        public string SecretKey;
+
+        /// <summary>
+        /// 实现组件类型
+        /// </summary>
+        public string ComponentType;
+
+        /// <summary>
+        /// 这个是给编辑器用的
+        /// </summary>
+        public int ComponentTypeNameIndex = 0;
     }
 }

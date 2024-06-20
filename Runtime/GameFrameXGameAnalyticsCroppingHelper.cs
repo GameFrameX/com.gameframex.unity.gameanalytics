@@ -9,7 +9,7 @@ namespace GameFrameX.GameAnalytics.Runtime
         [Preserve]
         private void Start()
         {
-            _ = typeof(GameAnalyticsManager);
+            _ = typeof(BaseGameAnalyticsManager);
             _ = typeof(IGameAnalyticsManager);
             _ = typeof(GameAnalyticsComponent);
         }
