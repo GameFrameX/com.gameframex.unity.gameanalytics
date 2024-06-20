@@ -26,6 +26,24 @@ namespace GameFrameX.GameAnalytics.Runtime
         public abstract void Init(string appid, string channel, string appKey, string secretKey);
 
         /// <summary>
+        /// 设置公共属性
+        /// </summary>
+        /// <param name="key">Key</param>
+        /// <param name="value">值</param>
+        public abstract void SetPublicProperties(string key, object value);
+
+        /// <summary>
+        /// 清除公共属性
+        /// </summary>
+        public abstract void ClearPublicProperties();
+
+        /// <summary>
+        /// 获取公共属性
+        /// </summary>
+        /// <returns></returns>
+        public abstract Dictionary<string, object> GetPublicProperties();
+
+        /// <summary>
         /// 开始计时
         /// </summary>
         /// <param name="eventName">事件名称</param>
