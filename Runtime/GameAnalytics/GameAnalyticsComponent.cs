@@ -51,7 +51,7 @@ namespace GameFrameX.GameAnalytics.Runtime
 
                     if (Activator.CreateInstance(gameAnalyticsComponentType) is IGameAnalyticsManager gameAnalyticsManager)
                     {
-                        gameAnalyticsManager.Init(gameAnalyticsComponentProvider.AppId, gameAnalyticsComponentProvider.Channel, gameAnalyticsComponentProvider.AppKey, gameAnalyticsComponentProvider.SecretKey);
+                        gameAnalyticsManager.Init(gameAnalyticsComponentProvider.AppId, gameAnalyticsComponentProvider.ChannelId, gameAnalyticsComponentProvider.Channel, gameAnalyticsComponentProvider.AppKey, gameAnalyticsComponentProvider.SecretKey);
                         m_GameAnalyticsManager.Add(gameAnalyticsManager);
                     }
                 }
@@ -199,6 +199,11 @@ namespace GameFrameX.GameAnalytics.Runtime
         /// 渠道
         /// </summary>
         public string Channel;
+
+        /// <summary>
+        /// 渠道ID
+        /// </summary>
+        public string ChannelId;
 
         /// <summary>
         /// Key

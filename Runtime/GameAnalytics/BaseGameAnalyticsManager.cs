@@ -20,10 +20,11 @@ namespace GameFrameX.GameAnalytics.Runtime
         /// 初始化
         /// </summary>
         /// <param name="appid">应用ID</param>
+        /// <param name="channelId">渠道Id</param>
         /// <param name="channel">渠道</param>
         /// <param name="appKey">Key</param>
         /// <param name="secretKey">安全校验密码</param>
-        public abstract void Init(string appid, string channel, string appKey, string secretKey);
+        public abstract void Init(string appid, string channelId, string channel, string appKey, string secretKey);
 
         /// <summary>
         /// 设置公共属性

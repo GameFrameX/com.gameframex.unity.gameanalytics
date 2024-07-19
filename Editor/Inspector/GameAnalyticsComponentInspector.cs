@@ -20,6 +20,7 @@ namespace GameFrameX.GameAnalytics.Editor
         private SerializedProperty m_GameAnalyticsComponentProviders;
         private readonly GUIContent m_GameAnalyticsComponentProvidersGUIContent = new GUIContent("游戏数据分析组件列表,按序上报");
         private readonly GUIContent m_AppIdGUIContent = new GUIContent("AppId");
+        private readonly GUIContent m_ChannelIdGUIContent = new GUIContent("ChannelId");
         private readonly GUIContent m_ChannelGUIContent = new GUIContent("Channel");
         private readonly GUIContent m_AppKeyGUIContent = new GUIContent("AppKey");
         private readonly GUIContent m_SecretKeyGUIContent = new GUIContent("SecretKey");
@@ -67,7 +68,7 @@ namespace GameFrameX.GameAnalytics.Editor
 
         private float ElementHeightCallback(int index)
         {
-            return (EditorGUIUtility.singleLineHeight + 6) * 5 + EditorGUIUtility.standardVerticalSpacing;
+            return (EditorGUIUtility.singleLineHeight + 6) * 6 + EditorGUIUtility.standardVerticalSpacing;
         }
 
         void DrawElementCallback(Rect rect, int index, bool isActive, bool isFocused)
@@ -75,6 +76,7 @@ namespace GameFrameX.GameAnalytics.Editor
             EditorGUI.indentLevel++;
             SerializedProperty element = m_ReorderAbleList.serializedProperty.GetArrayElementAtIndex(index);
             SerializedProperty appIdSerializedProperty = element.FindPropertyRelative("AppId");
+            SerializedProperty channelIdSerializedProperty = element.FindPropertyRelative("ChannelId");
             SerializedProperty channelSerializedProperty = element.FindPropertyRelative("Channel");
             SerializedProperty appKeySerializedProperty = element.FindPropertyRelative("AppKey");
             SerializedProperty secretKeySerializedProperty = element.FindPropertyRelative("SecretKey");
@@ -82,6 +84,8 @@ namespace GameFrameX.GameAnalytics.Editor
             SerializedProperty componentTypeNameIndexSerializedProperty = element.FindPropertyRelative("ComponentTypeNameIndex");
 
             EditorGUI.PropertyField(rect, appIdSerializedProperty, m_AppIdGUIContent, true);
+            rect.y += EditorGUIUtility.singleLineHeight + 6;
+            EditorGUI.PropertyField(rect, channelIdSerializedProperty, m_ChannelIdGUIContent, true);
             rect.y += EditorGUIUtility.singleLineHeight + 6;
             EditorGUI.PropertyField(rect, channelSerializedProperty, m_ChannelGUIContent, true);
             rect.y += EditorGUIUtility.singleLineHeight + 6;
