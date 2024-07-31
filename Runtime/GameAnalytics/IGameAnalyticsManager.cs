@@ -8,14 +8,24 @@ namespace GameFrameX.GameAnalytics.Runtime
     public interface IGameAnalyticsManager
     {
         /// <summary>
-        /// 初始化
+        /// 自动初始化
         /// </summary>
-        /// <param name="appid">应用ID</param>
-        /// <param name="channelId">渠道Id</param>
-        /// <param name="channel">渠道</param>
-        /// <param name="appKey">Key</param>
-        /// <param name="secretKey">安全校验密码</param>
-        void Init(string appid, string channelId, string channel, string appKey, string secretKey);
+        void Init(Dictionary<string, string> args);
+
+        /// <summary>
+        /// 手动初始化
+        /// </summary>
+        void ManualInit(Dictionary<string, string> args);
+
+        /// <summary>
+        /// 是否初始化
+        /// </summary>
+        bool IsInit();
+
+        /// <summary>
+        /// 是否手动初始化
+        /// </summary>
+        bool IsManualInit();
 
         /// <summary>
         /// 设置公共属性

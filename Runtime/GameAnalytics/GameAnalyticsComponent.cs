@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using GameFrameX.Runtime;
 using UnityEngine;
 
@@ -51,13 +52,39 @@ namespace GameFrameX.GameAnalytics.Runtime
 
                     if (Activator.CreateInstance(gameAnalyticsComponentType) is IGameAnalyticsManager gameAnalyticsManager)
                     {
-                        gameAnalyticsManager.Init(gameAnalyticsComponentProvider.AppId, gameAnalyticsComponentProvider.ChannelId, gameAnalyticsComponentProvider.Channel, gameAnalyticsComponentProvider.AppKey, gameAnalyticsComponentProvider.SecretKey);
+                        Dictionary<string, string> args = new Dictionary<string, string>();
+                        foreach (var param in gameAnalyticsComponentProvider.Params)
+                        {
+                            args[param.Key] = param.Value;
+                        }
+
+                        gameAnalyticsManager.Init(args);
                         m_GameAnalyticsManager.Add(gameAnalyticsManager);
                     }
                 }
             }
 
             m_IsInit = true;
+        }
+
+        /// <summary>
+        /// 手动初始化
+        /// </summary>
+        /// <param name="extraArgs"></param>
+        public void ManualInit(Dictionary<string, string> extraArgs)
+        {
+            if (!m_IsInit)
+            {
+                return;
+            }
+
+            foreach (var gameAnalyticsManager in m_GameAnalyticsManager)
+            {
+                if (gameAnalyticsManager.IsManualInit())
+                {
+                    gameAnalyticsManager.ManualInit(extraArgs);
+                }
+            }
         }
 
         /// <summary>
@@ -74,7 +101,14 @@ namespace GameFrameX.GameAnalytics.Runtime
 
             foreach (var gameAnalyticsManager in m_GameAnalyticsManager)
             {
-                gameAnalyticsManager.StartTimer(eventName);
+                if (gameAnalyticsManager.IsInit())
+                {
+                    gameAnalyticsManager.StartTimer(eventName);
+                }
+                else
+                {
+                    Log.Warning("GameAnalyticsManager is not init.");
+                }
             }
         }
 
@@ -92,7 +126,14 @@ namespace GameFrameX.GameAnalytics.Runtime
 
             foreach (var gameAnalyticsManager in m_GameAnalyticsManager)
             {
-                gameAnalyticsManager.StopTimer(eventName);
+                if (gameAnalyticsManager.IsInit())
+                {
+                    gameAnalyticsManager.StopTimer(eventName);
+                }
+                else
+                {
+                    Log.Warning("GameAnalyticsManager is not init.");
+                }
             }
         }
 
@@ -110,7 +151,14 @@ namespace GameFrameX.GameAnalytics.Runtime
 
             foreach (var gameAnalyticsManager in m_GameAnalyticsManager)
             {
-                gameAnalyticsManager.Event(eventName);
+                if (gameAnalyticsManager.IsInit())
+                {
+                    gameAnalyticsManager.Event(eventName);
+                }
+                else
+                {
+                    Log.Warning("GameAnalyticsManager is not init.");
+                }
             }
         }
 
@@ -129,7 +177,14 @@ namespace GameFrameX.GameAnalytics.Runtime
 
             foreach (var gameAnalyticsManager in m_GameAnalyticsManager)
             {
-                gameAnalyticsManager.Event(eventName, eventValue);
+                if (gameAnalyticsManager.IsInit())
+                {
+                    gameAnalyticsManager.Event(eventName, eventValue);
+                }
+                else
+                {
+                    Log.Warning("GameAnalyticsManager is not init.");
+                }
             }
         }
 
@@ -155,7 +210,14 @@ namespace GameFrameX.GameAnalytics.Runtime
 
             foreach (var gameAnalyticsManager in m_GameAnalyticsManager)
             {
-                gameAnalyticsManager.Event(eventName, value);
+                if (gameAnalyticsManager.IsInit())
+                {
+                    gameAnalyticsManager.Event(eventName, value);
+                }
+                else
+                {
+                    Log.Warning("GameAnalyticsManager is not init.");
+                }
             }
         }
 
@@ -182,7 +244,14 @@ namespace GameFrameX.GameAnalytics.Runtime
 
             foreach (var gameAnalyticsManager in m_GameAnalyticsManager)
             {
-                gameAnalyticsManager.Event(eventName, eventValue, value);
+                if (gameAnalyticsManager.IsInit())
+                {
+                    gameAnalyticsManager.Event(eventName, eventValue, value);
+                }
+                else
+                {
+                    Log.Warning("GameAnalyticsManager is not init.");
+                }
             }
         }
     }
@@ -190,31 +259,6 @@ namespace GameFrameX.GameAnalytics.Runtime
     [Serializable]
     public class GameAnalyticsComponentProvider
     {
-        /// <summary>
-        /// 应用ID
-        /// </summary>
-        public string AppId;
-
-        /// <summary>
-        /// 渠道
-        /// </summary>
-        public string Channel;
-
-        /// <summary>
-        /// 渠道ID
-        /// </summary>
-        public string ChannelId;
-
-        /// <summary>
-        /// Key
-        /// </summary>
-        public string AppKey;
-
-        /// <summary>
-        /// 安全校验密码
-        /// </summary>
-        public string SecretKey;
-
         /// <summary>
         /// 实现组件类型
         /// </summary>
@@ -224,5 +268,17 @@ namespace GameFrameX.GameAnalytics.Runtime
         /// 这个是给编辑器用的
         /// </summary>
         public int ComponentTypeNameIndex = 0;
+
+        /// <summary>
+        /// 参数
+        /// </summary>
+        public List<GameAnalyticsComponentParamKV> Params = new List<GameAnalyticsComponentParamKV>();
+    }
+
+    [Serializable]
+    public class GameAnalyticsComponentParamKV
+    {
+        public string Key;
+        public string Value;
     }
 }

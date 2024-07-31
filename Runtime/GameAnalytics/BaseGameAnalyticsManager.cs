@@ -7,6 +7,8 @@ namespace GameFrameX.GameAnalytics.Runtime
     /// </summary>
     public abstract class BaseGameAnalyticsManager : GameFrameworkModule, IGameAnalyticsManager
     {
+        protected bool m_IsInit = false;
+
         protected override void Update(float elapseSeconds, float realElapseSeconds)
         {
         }
@@ -19,12 +21,26 @@ namespace GameFrameX.GameAnalytics.Runtime
         /// <summary>
         /// 初始化
         /// </summary>
-        /// <param name="appid">应用ID</param>
-        /// <param name="channelId">渠道Id</param>
-        /// <param name="channel">渠道</param>
-        /// <param name="appKey">Key</param>
-        /// <param name="secretKey">安全校验密码</param>
-        public abstract void Init(string appid, string channelId, string channel, string appKey, string secretKey);
+        public abstract void Init(Dictionary<string, string> args);
+
+        /// <summary>
+        /// 手动初始化
+        /// </summary>
+        public abstract void ManualInit(Dictionary<string, string> args);
+
+        /// <summary>
+        /// 是否初始化
+        /// </summary>
+        /// <returns></returns>
+        public bool IsInit()
+        {
+            return m_IsInit;
+        }
+
+        /// <summary>
+        /// 是否手动初始化
+        /// </summary>
+        public abstract bool IsManualInit();
 
         /// <summary>
         /// 设置公共属性
