@@ -20,13 +20,14 @@ namespace GameFrameX.GameAnalytics.Editor
         private SerializedProperty m_GameAnalyticsComponentProviders;
 
         private readonly GUIContent m_GameAnalyticsComponentProvidersGUIContent = new GUIContent("游戏数据分析组件列表,按序上报");
+
         // private readonly GUIContent m_AppIdGUIContent = new GUIContent("AppId");
         // private readonly GUIContent m_ChannelIdGUIContent = new GUIContent("ChannelId");
         // private readonly GUIContent m_ChannelGUIContent = new GUIContent("Channel");
         // private readonly GUIContent m_AppKeyGUIContent = new GUIContent("AppKey");
         // private readonly GUIContent m_SecretKeyGUIContent = new GUIContent("SecretKey");
         private readonly GUIContent m_ComponentTypeGUIContent = new GUIContent("ComponentType");
-        private readonly GUIContent m_ParamsGUIContent = new GUIContent("Params");
+        private readonly GUIContent m_ParamsGUIContent        = new GUIContent("Params");
 
         public override void OnInspectorGUI()
         {
@@ -57,10 +58,12 @@ namespace GameFrameX.GameAnalytics.Editor
         protected override void Enable()
         {
             m_GameAnalyticsComponentProviders = serializedObject.FindProperty("m_gameAnalyticsComponentProviders");
-            m_ReorderAbleList = new ReorderableList(serializedObject, m_GameAnalyticsComponentProviders, true, true, true, true);
-            m_ReorderAbleList.drawElementCallback = DrawElementCallback;
-            m_ReorderAbleList.elementHeightCallback = ElementHeightCallback;
-            m_ReorderAbleList.drawHeaderCallback = DrawHeaderCallback;
+            m_ReorderAbleList = new ReorderableList(serializedObject, m_GameAnalyticsComponentProviders, true, true, true, true)
+            {
+                drawElementCallback   = DrawElementCallback,
+                elementHeightCallback = ElementHeightCallback,
+                drawHeaderCallback    = DrawHeaderCallback,
+            };
         }
 
         private void DrawHeaderCallback(Rect rect)
@@ -70,18 +73,35 @@ namespace GameFrameX.GameAnalytics.Editor
 
         private float ElementHeightCallback(int index)
         {
-            SerializedProperty element = m_ReorderAbleList.serializedProperty.GetArrayElementAtIndex(index);
+            SerializedProperty element       = m_ReorderAbleList.serializedProperty.GetArrayElementAtIndex(index);
             SerializedProperty paramProperty = element.FindPropertyRelative("Params");
-            return (EditorGUIUtility.singleLineHeight + 6) * (paramProperty.arraySize + 2) + EditorGUIUtility.standardVerticalSpacing * 2;
+            if (paramProperty.isExpanded)
+            {
+                int count = 2;
+                for (int i = 0; i < paramProperty.arraySize; i++)
+                {
+                    var propertyElement = paramProperty.GetArrayElementAtIndex(i);
+                    if (propertyElement.isExpanded)
+                    {
+                        count += 2;
+                    }
+                }
+
+                return (EditorGUIUtility.singleLineHeight + 6) * (paramProperty.arraySize + count) + EditorGUIUtility.standardVerticalSpacing * 2;
+            }
+            else
+            {
+                return (EditorGUIUtility.singleLineHeight + 6) * 2 + EditorGUIUtility.standardVerticalSpacing * 2;
+            }
         }
 
         void DrawElementCallback(Rect rect, int index, bool isActive, bool isFocused)
         {
             EditorGUI.indentLevel++;
-            SerializedProperty element = m_ReorderAbleList.serializedProperty.GetArrayElementAtIndex(index);
-            SerializedProperty componentTypeSerializedProperty = element.FindPropertyRelative("ComponentType");
+            SerializedProperty element                                  = m_ReorderAbleList.serializedProperty.GetArrayElementAtIndex(index);
+            SerializedProperty componentTypeSerializedProperty          = element.FindPropertyRelative("ComponentType");
             SerializedProperty componentTypeNameIndexSerializedProperty = element.FindPropertyRelative("ComponentTypeNameIndex");
-            SerializedProperty paramProperty = element.FindPropertyRelative("Params");
+            SerializedProperty paramProperty                            = element.FindPropertyRelative("Params");
 
             // SerializedProperty appIdSerializedProperty = element.FindPropertyRelative("AppId");
             // SerializedProperty channelIdSerializedProperty = element.FindPropertyRelative("ChannelId");
@@ -105,10 +125,10 @@ namespace GameFrameX.GameAnalytics.Editor
             EditorGUILayout.BeginHorizontal();
             {
                 EditorGUI.PrefixLabel(rect, m_ComponentTypeGUIContent);
-                rect.x += EditorGUIUtility.labelWidth - 14;
-                componentTypeNameIndexSerializedProperty.intValue = EditorGUI.Popup(new Rect(rect.x, rect.y, rect.width, EditorGUIUtility.singleLineHeight), componentTypeNameIndexSerializedProperty.intValue, m_ManagerTypeNames);
-                componentTypeSerializedProperty.stringValue = m_ManagerTypeNames[componentTypeNameIndexSerializedProperty.intValue];
-                rect.y += EditorGUIUtility.singleLineHeight + 6;
+                rect.x                                            += EditorGUIUtility.labelWidth - 14;
+                componentTypeNameIndexSerializedProperty.intValue =  EditorGUI.Popup(new Rect(rect.x, rect.y, rect.width, EditorGUIUtility.singleLineHeight), componentTypeNameIndexSerializedProperty.intValue, m_ManagerTypeNames);
+                componentTypeSerializedProperty.stringValue       =  m_ManagerTypeNames[componentTypeNameIndexSerializedProperty.intValue];
+                rect.y                                            += EditorGUIUtility.singleLineHeight + 6;
 
                 rect.x -= EditorGUIUtility.labelWidth - 14;
                 EditorGUI.PropertyField(rect, paramProperty, true);
