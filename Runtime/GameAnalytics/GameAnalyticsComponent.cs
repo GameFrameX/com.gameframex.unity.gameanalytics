@@ -193,7 +193,7 @@ namespace GameFrameX.GameAnalytics.Runtime
         /// </summary>
         /// <param name="eventName">事件名称</param>
         /// <param name="customF">自定义字段</param>
-        public void Event(string eventName, Dictionary<string, string> customF)
+        public void Event(string eventName, Dictionary<string, object> customF)
         {
             GameFrameworkGuard.NotNullOrEmpty(eventName, nameof(eventName));
             if (!m_IsInit)
@@ -227,7 +227,7 @@ namespace GameFrameX.GameAnalytics.Runtime
         /// <param name="eventName">事件名称</param>
         /// <param name="eventValue">事件数值</param>
         /// <param name="customF">自定义字段</param>
-        public void Event(string eventName, float eventValue, Dictionary<string, string> customF)
+        public void Event(string eventName, float eventValue, Dictionary<string, object> customF)
         {
             GameFrameworkGuard.NotNullOrEmpty(eventName, nameof(eventName));
             if (!m_IsInit)
