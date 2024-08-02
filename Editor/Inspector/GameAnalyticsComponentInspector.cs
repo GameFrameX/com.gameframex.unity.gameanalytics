@@ -27,7 +27,7 @@ namespace GameFrameX.GameAnalytics.Editor
         // private readonly GUIContent m_AppKeyGUIContent = new GUIContent("AppKey");
         // private readonly GUIContent m_SecretKeyGUIContent = new GUIContent("SecretKey");
         private readonly GUIContent m_ComponentTypeGUIContent = new GUIContent("ComponentType");
-        private readonly GUIContent m_ParamsGUIContent        = new GUIContent("Params");
+        private readonly GUIContent m_SettingGUIContent       = new GUIContent("Setting", "游戏数据分析组件设置");
 
         public override void OnInspectorGUI()
         {
@@ -73,26 +73,28 @@ namespace GameFrameX.GameAnalytics.Editor
 
         private float ElementHeightCallback(int index)
         {
-            SerializedProperty element       = m_ReorderAbleList.serializedProperty.GetArrayElementAtIndex(index);
-            SerializedProperty paramProperty = element.FindPropertyRelative("Params");
-            if (paramProperty.isExpanded)
+            SerializedProperty element                        = m_ReorderAbleList.serializedProperty.GetArrayElementAtIndex(index);
+            SerializedProperty componentTypeNameIndexProperty = element.FindPropertyRelative("ComponentTypeNameIndex");
+            if (componentTypeNameIndexProperty.intValue > 0)
             {
-                int count = 2;
-                for (int i = 0; i < paramProperty.arraySize; i++)
+                SerializedProperty settingProperty = element.FindPropertyRelative("Setting");
+                if (settingProperty.isExpanded)
                 {
-                    var propertyElement = paramProperty.GetArrayElementAtIndex(i);
-                    if (propertyElement.isExpanded)
+                    int count = 2;
+                    for (int i = 0; i < settingProperty.arraySize; i++)
                     {
-                        count += 2;
+                        var propertyElement = settingProperty.GetArrayElementAtIndex(i);
+                        if (propertyElement.isExpanded)
+                        {
+                            count += 2;
+                        }
                     }
-                }
 
-                return (EditorGUIUtility.singleLineHeight + 6) * (paramProperty.arraySize + count) + EditorGUIUtility.standardVerticalSpacing * 2;
+                    return (EditorGUIUtility.singleLineHeight + 6) * (settingProperty.arraySize + count) + EditorGUIUtility.standardVerticalSpacing * 2;
+                }
             }
-            else
-            {
-                return (EditorGUIUtility.singleLineHeight + 6) * 2 + EditorGUIUtility.standardVerticalSpacing * 2;
-            }
+
+            return (EditorGUIUtility.singleLineHeight + 6) * 2 + EditorGUIUtility.standardVerticalSpacing * 2;
         }
 
         void DrawElementCallback(Rect rect, int index, bool isActive, bool isFocused)
@@ -101,7 +103,7 @@ namespace GameFrameX.GameAnalytics.Editor
             SerializedProperty element                                  = m_ReorderAbleList.serializedProperty.GetArrayElementAtIndex(index);
             SerializedProperty componentTypeSerializedProperty          = element.FindPropertyRelative("ComponentType");
             SerializedProperty componentTypeNameIndexSerializedProperty = element.FindPropertyRelative("ComponentTypeNameIndex");
-            SerializedProperty paramProperty                            = element.FindPropertyRelative("Params");
+            SerializedProperty settingProperty                          = element.FindPropertyRelative("Setting");
 
             // SerializedProperty appIdSerializedProperty = element.FindPropertyRelative("AppId");
             // SerializedProperty channelIdSerializedProperty = element.FindPropertyRelative("ChannelId");
@@ -131,8 +133,59 @@ namespace GameFrameX.GameAnalytics.Editor
                 rect.y                                            += EditorGUIUtility.singleLineHeight + 6;
 
                 rect.x -= EditorGUIUtility.labelWidth - 14;
-                EditorGUI.PropertyField(rect, paramProperty, true);
-                rect.y += EditorGUIUtility.singleLineHeight * paramProperty.arraySize + 6;
+
+                EditorGUI.PropertyField(rect, settingProperty, m_SettingGUIContent, true);
+                rect.y += EditorGUIUtility.singleLineHeight * settingProperty.arraySize + 6;
+
+                if (componentTypeNameIndexSerializedProperty.intValue > 0)
+                {
+                    var type = Utility.Assembly.GetType(componentTypeSerializedProperty.stringValue);
+                    if (type != null)
+                    {
+                        var types = type.Assembly.GetTypes();
+                        foreach (var typeImpl in types)
+                        {
+                            if (typeImpl.BaseType != typeof(BaseGameAnalyticsSetting))
+                            {
+                                continue;
+                            }
+
+                            var fieldInfos = typeImpl.GetFields();
+
+                            if (settingProperty.arraySize < fieldInfos.Length)
+                            {
+                                for (int i = settingProperty.arraySize; i < fieldInfos.Length; i++)
+                                {
+                                    settingProperty.InsertArrayElementAtIndex(i);
+                                }
+                            }
+
+
+                            for (var i = 0; i < fieldInfos.Length; i++)
+                            {
+                                var fieldInfo = fieldInfos[i];
+
+                                var serializedProperty = settingProperty.GetArrayElementAtIndex(i);
+                                GUI.enabled = false;
+                                var keyProperty = serializedProperty.FindPropertyRelative("Key");
+
+                                if (keyProperty.stringValue != fieldInfo.Name)
+                                {
+                                    keyProperty.stringValue = fieldInfo.Name;
+                                }
+
+                                GUI.enabled =  true;
+                                rect.y      += EditorGUIUtility.singleLineHeight + 6;
+                            }
+
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    settingProperty.isExpanded = false;
+                }
             }
             EditorGUILayout.EndHorizontal();
 

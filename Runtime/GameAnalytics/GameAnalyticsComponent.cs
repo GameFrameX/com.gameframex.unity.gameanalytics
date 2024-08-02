@@ -13,14 +13,14 @@ namespace GameFrameX.GameAnalytics.Runtime
     [AddComponentMenu("Game Framework/GameAnalytics")]
     public sealed class GameAnalyticsComponent : GameFrameworkComponent
     {
-        private bool m_IsInit = false;
+        private                  bool                                 m_IsInit                          = false;
         [SerializeField] private List<GameAnalyticsComponentProvider> m_gameAnalyticsComponentProviders = new List<GameAnalyticsComponentProvider>();
-        private List<IGameAnalyticsManager> m_GameAnalyticsManager;
+        private                  List<IGameAnalyticsManager>          m_GameAnalyticsManager;
 
         protected override void Awake()
         {
             m_GameAnalyticsManager = new List<IGameAnalyticsManager>();
-            IsAutoRegister = false;
+            IsAutoRegister         = false;
             base.Awake();
         }
 
@@ -53,7 +53,7 @@ namespace GameFrameX.GameAnalytics.Runtime
                     if (Activator.CreateInstance(gameAnalyticsComponentType) is IGameAnalyticsManager gameAnalyticsManager)
                     {
                         Dictionary<string, string> args = new Dictionary<string, string>();
-                        foreach (var param in gameAnalyticsComponentProvider.Params)
+                        foreach (var param in gameAnalyticsComponentProvider.Setting)
                         {
                             args[param.Key] = param.Value;
                         }
@@ -272,7 +272,7 @@ namespace GameFrameX.GameAnalytics.Runtime
         /// <summary>
         /// 参数
         /// </summary>
-        public List<GameAnalyticsComponentParamKV> Params = new List<GameAnalyticsComponentParamKV>();
+        public List<GameAnalyticsComponentParamKV> Setting = new List<GameAnalyticsComponentParamKV>();
     }
 
     [Serializable]
