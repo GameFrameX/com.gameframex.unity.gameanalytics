@@ -8,6 +8,7 @@
 using System.Collections.Generic;
 using GameFrameX.Editor;
 using GameFrameX.GameAnalytics.Runtime;
+using GameFrameX.Runtime;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;

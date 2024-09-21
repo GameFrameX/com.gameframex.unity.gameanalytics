@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using GameFrameX.Runtime;
 
 namespace GameFrameX.GameAnalytics.Runtime
 {
