@@ -87,6 +87,60 @@ namespace GameFrameX.GameAnalytics.Runtime
             }
         }
 
+
+        /// <summary>
+        /// 设置公共属性
+        /// </summary>
+        /// <param name="key">Key</param>
+        /// <param name="value">值</param>
+        public void SetPublicProperties(string key, object value)
+        {
+            if (!m_IsInit)
+            {
+                return;
+            }
+
+            foreach (var gameAnalyticsManager in m_GameAnalyticsManager)
+            {
+                gameAnalyticsManager.SetPublicProperties(key, value);
+            }
+        }
+
+        /// <summary>
+        /// 清除公共属性
+        /// </summary>
+        public void ClearPublicProperties()
+        {
+            if (!m_IsInit)
+            {
+                return;
+            }
+
+            foreach (var gameAnalyticsManager in m_GameAnalyticsManager)
+            {
+                gameAnalyticsManager.ClearPublicProperties();
+            }
+        }
+
+        /// <summary>
+        /// 获取公共属性
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<string, object> GetPublicProperties()
+        {
+            if (!m_IsInit)
+            {
+                return new Dictionary<string, object>();
+            }
+
+            foreach (var gameAnalyticsManager in m_GameAnalyticsManager)
+            {
+                return gameAnalyticsManager.GetPublicProperties();
+            }
+
+            return new Dictionary<string, object>();
+        }
+
         /// <summary>
         /// 开始计时
         /// </summary>
@@ -109,6 +163,42 @@ namespace GameFrameX.GameAnalytics.Runtime
                 {
                     Log.Warning("GameAnalyticsManager is not init.");
                 }
+            }
+        }
+
+        /// <summary>
+        /// 暂停计时
+        /// </summary>
+        /// <param name="eventName">事件名称</param>
+        public void PauseTimer(string eventName)
+        {
+            GameFrameworkGuard.NotNullOrEmpty(eventName, nameof(eventName));
+            if (!m_IsInit)
+            {
+                return;
+            }
+
+            foreach (var gameAnalyticsManager in m_GameAnalyticsManager)
+            {
+                gameAnalyticsManager.PauseTimer(eventName);
+            }
+        }
+
+        /// <summary>
+        /// 恢复计时
+        /// </summary>
+        /// <param name="eventName">事件名称</param>
+        public void ResumeTimer(string eventName)
+        {
+            GameFrameworkGuard.NotNullOrEmpty(eventName, nameof(eventName));
+            if (!m_IsInit)
+            {
+                return;
+            }
+
+            foreach (var gameAnalyticsManager in m_GameAnalyticsManager)
+            {
+                gameAnalyticsManager.ResumeTimer(eventName);
             }
         }
 
