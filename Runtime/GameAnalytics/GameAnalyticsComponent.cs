@@ -30,6 +30,18 @@ namespace GameFrameX.GameAnalytics.Runtime
         }
 
         /// <summary>
+        /// 设置玩家ID
+        /// </summary>
+        /// <param name="playerId">玩家ID</param>
+        public void SetPlayerId(string playerId)
+        {
+            foreach (var gameAnalyticsManager in m_GameAnalyticsManager)
+            {
+                gameAnalyticsManager.SetPlayerId(playerId);
+            }
+        }
+
+        /// <summary>
         /// 初始化
         /// </summary>
         public void Init()

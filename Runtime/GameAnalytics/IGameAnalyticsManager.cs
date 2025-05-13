@@ -96,5 +96,11 @@ namespace GameFrameX.GameAnalytics.Runtime
         /// <param name="eventValue">事件数值</param>
         /// <param name="customF">自定义字段</param>
         void Event(string eventName, float eventValue, Dictionary<string, object> customF);
+
+        /// <summary>
+        /// 设置玩家ID
+        /// </summary>
+        /// <param name="playerId">玩家ID</param>
+        void SetPlayerId(string playerId);
     }
 }
