@@ -28,7 +28,7 @@ namespace GameFrameX.GameAnalytics.Editor
         // private readonly GUIContent m_AppKeyGUIContent = new GUIContent("AppKey");
         // private readonly GUIContent m_SecretKeyGUIContent = new GUIContent("SecretKey");
         private readonly GUIContent m_ComponentTypeGUIContent = new GUIContent("ComponentType");
-        private readonly GUIContent m_SettingGUIContent       = new GUIContent("Setting", "游戏数据分析组件设置");
+        private readonly GUIContent m_SettingGUIContent = new GUIContent("Setting", "游戏数据分析组件设置");
 
         public override void OnInspectorGUI()
         {
@@ -61,9 +61,9 @@ namespace GameFrameX.GameAnalytics.Editor
             m_GameAnalyticsComponentProviders = serializedObject.FindProperty("m_gameAnalyticsComponentProviders");
             m_ReorderAbleList = new ReorderableList(serializedObject, m_GameAnalyticsComponentProviders, true, true, true, true)
             {
-                drawElementCallback   = DrawElementCallback,
+                drawElementCallback = DrawElementCallback,
                 elementHeightCallback = ElementHeightCallback,
-                drawHeaderCallback    = DrawHeaderCallback,
+                drawHeaderCallback = DrawHeaderCallback,
             };
         }
 
@@ -74,9 +74,9 @@ namespace GameFrameX.GameAnalytics.Editor
 
         private float ElementHeightCallback(int index)
         {
-            SerializedProperty element                        = m_ReorderAbleList.serializedProperty.GetArrayElementAtIndex(index);
+            SerializedProperty element = m_ReorderAbleList.serializedProperty.GetArrayElementAtIndex(index);
             SerializedProperty componentTypeNameIndexProperty = element.FindPropertyRelative("ComponentTypeNameIndex");
-            if (componentTypeNameIndexProperty.intValue > 0)
+            if (componentTypeNameIndexProperty.intValue > 0 && componentTypeNameIndexProperty.intValue < m_ManagerTypeNames.Length)
             {
                 SerializedProperty settingProperty = element.FindPropertyRelative("Setting");
                 if (settingProperty.isExpanded)
@@ -101,10 +101,10 @@ namespace GameFrameX.GameAnalytics.Editor
         void DrawElementCallback(Rect rect, int index, bool isActive, bool isFocused)
         {
             EditorGUI.indentLevel++;
-            SerializedProperty element                                  = m_ReorderAbleList.serializedProperty.GetArrayElementAtIndex(index);
-            SerializedProperty componentTypeSerializedProperty          = element.FindPropertyRelative("ComponentType");
+            SerializedProperty element = m_ReorderAbleList.serializedProperty.GetArrayElementAtIndex(index);
+            SerializedProperty componentTypeSerializedProperty = element.FindPropertyRelative("ComponentType");
             SerializedProperty componentTypeNameIndexSerializedProperty = element.FindPropertyRelative("ComponentTypeNameIndex");
-            SerializedProperty settingProperty                          = element.FindPropertyRelative("Setting");
+            SerializedProperty settingProperty = element.FindPropertyRelative("Setting");
 
             // SerializedProperty appIdSerializedProperty = element.FindPropertyRelative("AppId");
             // SerializedProperty channelIdSerializedProperty = element.FindPropertyRelative("ChannelId");
@@ -127,60 +127,67 @@ namespace GameFrameX.GameAnalytics.Editor
 
             EditorGUILayout.BeginHorizontal();
             {
-                EditorGUI.PrefixLabel(rect, m_ComponentTypeGUIContent);
-                rect.x                                            += EditorGUIUtility.labelWidth - 14;
-                componentTypeNameIndexSerializedProperty.intValue =  EditorGUI.Popup(new Rect(rect.x, rect.y, rect.width, EditorGUIUtility.singleLineHeight), componentTypeNameIndexSerializedProperty.intValue, m_ManagerTypeNames);
-                componentTypeSerializedProperty.stringValue       =  m_ManagerTypeNames[componentTypeNameIndexSerializedProperty.intValue];
-                rect.y                                            += EditorGUIUtility.singleLineHeight + 6;
-
-                rect.x -= EditorGUIUtility.labelWidth - 14;
-
-                EditorGUI.PropertyField(rect, settingProperty, m_SettingGUIContent, true);
-                rect.y += EditorGUIUtility.singleLineHeight * settingProperty.arraySize + 6;
-
-                if (componentTypeNameIndexSerializedProperty.intValue > 0)
+                if (m_ManagerTypeNames.Length > 0 && m_ManagerTypeNames.Length > componentTypeNameIndexSerializedProperty.intValue)
                 {
-                    var type = Utility.Assembly.GetType(componentTypeSerializedProperty.stringValue);
-                    if (type != null)
+                    EditorGUI.PrefixLabel(rect, m_ComponentTypeGUIContent);
+                    rect.x += EditorGUIUtility.labelWidth - 14;
+                    componentTypeNameIndexSerializedProperty.intValue = EditorGUI.Popup(new Rect(rect.x, rect.y, rect.width, EditorGUIUtility.singleLineHeight), componentTypeNameIndexSerializedProperty.intValue, m_ManagerTypeNames);
+                    componentTypeSerializedProperty.stringValue = m_ManagerTypeNames[componentTypeNameIndexSerializedProperty.intValue];
+                    rect.y += EditorGUIUtility.singleLineHeight + 6;
+
+                    rect.x -= EditorGUIUtility.labelWidth - 14;
+
+                    EditorGUI.PropertyField(rect, settingProperty, m_SettingGUIContent, true);
+                    rect.y += EditorGUIUtility.singleLineHeight * settingProperty.arraySize + 6;
+
+                    if (componentTypeNameIndexSerializedProperty.intValue > 0)
                     {
-                        var types = type.Assembly.GetTypes();
-                        foreach (var typeImpl in types)
+                        var type = Utility.Assembly.GetType(componentTypeSerializedProperty.stringValue);
+                        if (type != null)
                         {
-                            if (typeImpl.BaseType != typeof(BaseGameAnalyticsSetting))
+                            var types = type.Assembly.GetTypes();
+                            foreach (var typeImpl in types)
                             {
-                                continue;
-                            }
-
-                            var fieldInfos = typeImpl.GetFields();
-
-                            if (settingProperty.arraySize < fieldInfos.Length)
-                            {
-                                for (int i = settingProperty.arraySize; i < fieldInfos.Length; i++)
+                                if (typeImpl.BaseType != typeof(BaseGameAnalyticsSetting))
                                 {
-                                    settingProperty.InsertArrayElementAtIndex(i);
-                                }
-                            }
-
-
-                            for (var i = 0; i < fieldInfos.Length; i++)
-                            {
-                                var fieldInfo = fieldInfos[i];
-
-                                var serializedProperty = settingProperty.GetArrayElementAtIndex(i);
-                                GUI.enabled = false;
-                                var keyProperty = serializedProperty.FindPropertyRelative("Key");
-
-                                if (keyProperty.stringValue != fieldInfo.Name)
-                                {
-                                    keyProperty.stringValue = fieldInfo.Name;
+                                    continue;
                                 }
 
-                                GUI.enabled =  true;
-                                rect.y      += EditorGUIUtility.singleLineHeight + 6;
-                            }
+                                var fieldInfos = typeImpl.GetFields();
 
-                            break;
+                                if (settingProperty.arraySize < fieldInfos.Length)
+                                {
+                                    for (int i = settingProperty.arraySize; i < fieldInfos.Length; i++)
+                                    {
+                                        settingProperty.InsertArrayElementAtIndex(i);
+                                    }
+                                }
+
+
+                                for (var i = 0; i < fieldInfos.Length; i++)
+                                {
+                                    var fieldInfo = fieldInfos[i];
+
+                                    var serializedProperty = settingProperty.GetArrayElementAtIndex(i);
+                                    GUI.enabled = false;
+                                    var keyProperty = serializedProperty.FindPropertyRelative("Key");
+
+                                    if (keyProperty.stringValue != fieldInfo.Name)
+                                    {
+                                        keyProperty.stringValue = fieldInfo.Name;
+                                    }
+
+                                    GUI.enabled = true;
+                                    rect.y += EditorGUIUtility.singleLineHeight + 6;
+                                }
+
+                                break;
+                            }
                         }
+                    }
+                    else
+                    {
+                        settingProperty.isExpanded = false;
                     }
                 }
                 else
