@@ -1,8 +1,28 @@
 # Changelog
 
+## [1.0.5](https://github.com/GameFrameX/com.gameframex.unity.gameanalytics/tree/1.0.5) (2025-05-30)
+
+[Full Changelog](https://github.com/GameFrameX/com.gameframex.unity.gameanalytics/compare/1.0.4...1.0.5)
+
 ## [1.0.4](https://github.com/GameFrameX/com.gameframex.unity.gameanalytics/tree/1.0.4) (2024-10-14)
 
-[Full Changelog](https://github.com/GameFrameX/com.gameframex.unity.gameanalytics/compare/768dbd2f1da06c5b06b4d51077b37aafe90bee2c...1.0.4)
+[Full Changelog](https://github.com/GameFrameX/com.gameframex.unity.gameanalytics/compare/1.0.3...1.0.4)
+
+## [1.0.3](https://github.com/GameFrameX/com.gameframex.unity.gameanalytics/tree/1.0.3) (2024-08-02)
+
+[Full Changelog](https://github.com/GameFrameX/com.gameframex.unity.gameanalytics/compare/1.0.2...1.0.3)
+
+## [1.0.2](https://github.com/GameFrameX/com.gameframex.unity.gameanalytics/tree/1.0.2) (2024-08-02)
+
+[Full Changelog](https://github.com/GameFrameX/com.gameframex.unity.gameanalytics/compare/1.0.1...1.0.2)
+
+## [1.0.1](https://github.com/GameFrameX/com.gameframex.unity.gameanalytics/tree/1.0.1) (2024-07-19)
+
+[Full Changelog](https://github.com/GameFrameX/com.gameframex.unity.gameanalytics/compare/1.0.0...1.0.1)
+
+## [1.0.0](https://github.com/GameFrameX/com.gameframex.unity.gameanalytics/tree/1.0.0) (2024-04-10)
+
+[Full Changelog](https://github.com/GameFrameX/com.gameframex.unity.gameanalytics/compare/768dbd2f1da06c5b06b4d51077b37aafe90bee2c...1.0.0)
 
 
 
