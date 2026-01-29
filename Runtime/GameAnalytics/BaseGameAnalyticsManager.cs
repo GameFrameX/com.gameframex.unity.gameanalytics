@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using GameFrameX.Runtime;
+using UnityEngine;
 
 namespace GameFrameX.GameAnalytics.Runtime
 {
@@ -9,6 +10,11 @@ namespace GameFrameX.GameAnalytics.Runtime
     public abstract class BaseGameAnalyticsManager : GameFrameworkModule, IGameAnalyticsManager
     {
         protected bool m_IsInit = false;
+
+        /// <summary>
+        /// 公共属性
+        /// </summary>
+        protected readonly Dictionary<string, object> m_PublicProperties = new Dictionary<string, object>();
 
         protected override void Update(float elapseSeconds, float realElapseSeconds)
         {
@@ -48,18 +54,94 @@ namespace GameFrameX.GameAnalytics.Runtime
         /// </summary>
         /// <param name="key">Key</param>
         /// <param name="value">值</param>
-        public abstract void SetPublicProperties(string key, object value);
+        public virtual void SetPublicProperties(string key, object value)
+        {
+            if (string.IsNullOrEmpty(key))
+            {
+                return;
+            }
+
+            m_PublicProperties[key] = value;
+        }
 
         /// <summary>
         /// 清除公共属性
         /// </summary>
-        public abstract void ClearPublicProperties();
+        public virtual void ClearPublicProperties()
+        {
+            m_PublicProperties.Clear();
+            AddDeviceInfoToPublicProperties();
+        }
 
         /// <summary>
         /// 获取公共属性
         /// </summary>
         /// <returns></returns>
-        public abstract Dictionary<string, object> GetPublicProperties();
+        public virtual Dictionary<string, object> GetPublicProperties()
+        {
+            return new Dictionary<string, object>(m_PublicProperties);
+        }
+
+        /// <summary>
+        /// 添加设备信息到公共属性
+        /// </summary>
+        protected virtual void AddDeviceInfoToPublicProperties()
+        {
+            // 设备基本信息
+            m_PublicProperties["device_id"] = SystemInfo.deviceUniqueIdentifier;
+            m_PublicProperties["device_model"] = SystemInfo.deviceModel;
+            m_PublicProperties["device_type"] = SystemInfo.deviceType.ToString();
+
+            // 操作系统信息
+            m_PublicProperties["os"] = SystemInfo.operatingSystem;
+
+            // 应用程序信息
+            m_PublicProperties["app_version"] = Application.version;
+            m_PublicProperties["unity_version"] = Application.unityVersion;
+            m_PublicProperties["platform"] = Application.platform.ToString();
+
+            // 系统硬件信息
+            m_PublicProperties["processor_type"] = SystemInfo.processorType;
+            m_PublicProperties["processor_count"] = SystemInfo.processorCount;
+            m_PublicProperties["processor_frequency"] = SystemInfo.processorFrequency;
+            m_PublicProperties["system_memory_size"] = SystemInfo.systemMemorySize;
+
+            // 图形相关信息
+            m_PublicProperties["graphics_device_name"] = SystemInfo.graphicsDeviceName;
+            m_PublicProperties["graphics_device_type"] = SystemInfo.graphicsDeviceType.ToString();
+            m_PublicProperties["graphics_memory_size"] = SystemInfo.graphicsMemorySize;
+            m_PublicProperties["graphics_device_version"] = SystemInfo.graphicsDeviceVersion;
+            m_PublicProperties["graphics_shader_level"] = SystemInfo.graphicsShaderLevel;
+
+            // 屏幕信息
+            m_PublicProperties["screen_width"] = Screen.width;
+            m_PublicProperties["screen_height"] = Screen.height;
+            m_PublicProperties["screen_dpi"] = Screen.dpi;
+            m_PublicProperties["screen_refresh_rate"] = Screen.currentResolution.refreshRate;
+            // 添加本地化语言信息
+            m_PublicProperties["system_language"] = Application.systemLanguage.ToString();
+            m_PublicProperties["current_culture"] = System.Globalization.CultureInfo.CurrentCulture.Name;
+
+            // 网络类型
+            string networkType;
+            switch (Application.internetReachability)
+            {
+                case NetworkReachability.NotReachable:
+                    networkType = "No Network";
+                    break;
+                case NetworkReachability.ReachableViaCarrierDataNetwork:
+                    networkType = "Mobile Data";
+                    break;
+                case NetworkReachability.ReachableViaLocalAreaNetwork:
+                    networkType = "WiFi";
+                    break;
+                default:
+                    networkType = "Unknown";
+                    break;
+            }
+
+            m_PublicProperties["network_type"] = networkType;
+        }
 
         /// <summary>
         /// 开始计时
