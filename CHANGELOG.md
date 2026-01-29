@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/gameframex/com.gameframex.unity.gameanalytics/compare/1.1.0...1.2.0) (2026-01-29)
+
+
+### Features
+
+* **analytics:** 为公共属性添加默认设备信息收集 ([e5d4624](https://github.com/gameframex/com.gameframex.unity.gameanalytics/commit/e5d46246e392d41b984973d48e44f6693f636c54))
+
 # [1.1.0](https://github.com/gameframex/com.gameframex.unity.gameanalytics/compare/1.0.6...1.1.0) (2025-12-24)
 
 
