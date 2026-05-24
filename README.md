@@ -1,18 +1,47 @@
-﻿## HOMEPAGE
+<div align="center">
 
-GameFrameX 的 GameAnalytics 游戏数据分析的组件
+<img src="https://download.alianblank.com/gameframex/gameframex_logo_320.png" alt="GameFrameX Logo" width="160"/>
 
-**GameAnalytics 游戏数据分析的组件 (GameAnalytics Component)** - 提供游戏开发者集成和使用游戏数据分析的功能的接口。
+# Game Frame X GameAnalytics Component
 
-# 使用文档(文档编写于GPT4)
+[![License](https://img.shields.io/github/license/gameframex/com.gameframex.unity.gameanalytics)](https://github.com/gameframex/com.gameframex.unity.gameanalytics/blob/main/LICENSE)
+[![Version](https://img.shields.io/github/v/release/gameframex/com.gameframex.unity.gameanalytics)](https://github.com/gameframex/com.gameframex.unity.gameanalytics/releases)
+[![Documentation](https://img.shields.io/badge/Documentation-Documentation-blue)](https://gameframex.doc.alianblank.com)
 
-## 简介
+All-in-One Solution for Indie Game Development · Empowering Indie Developers' Dreams
 
-`GameAnalyticsComponent`是一个用于游戏数据分析的组件，它包含了不同类型的事件上报和计时器功能。该组件作为游戏框架的一部分，便于游戏开发者集成和使用游戏数据分析的功能。
+[Documentation](https://gameframex.doc.alianblank.com) · [Quick Start](#quick-start) · [QQ Group](https://qm.qq.com/q/5kbDVBdUeS) · **Language**
 
-## 初始化
+[English](README.md) | [简体中文](README.zh-CN.md) | [繁體中文](README.zh-TW.md) | [日本語](README.ja.md) | [한국어](README.ko.md)
 
-在Unity的`Awake`方法中，`GameAnalyticsComponent`被初始化，并创建了一个`GameAnalyticsManager`实例。通过调用`Init`方法，完成具体的初始化过程，并设置`_isInit`标志为`true`，以确保后续的方法只在初始化之后被执行。
+</div>
+
+---
+
+## Project Overview
+
+The **GameAnalytics Component** provides interfaces for game developers to integrate and use game data analytics functionality. It includes different types of event reporting and timer features.
+
+## Quick Start
+
+### Installation
+
+Choose one of the following methods:
+
+1. Add to `manifest.json` dependencies:
+   ```json
+   {
+      "com.gameframex.unity.gameanalytics": "https://github.com/AlianBlank/com.gameframex.unity.gameanalytics.git"
+   }
+   ```
+2. Use **Packages Manager** in Unity with **Git URL**: `https://github.com/AlianBlank/com.gameframex.unity.gameanalytics.git`
+3. Clone the repository into your Unity project's `Packages` directory. It will be loaded automatically.
+
+## Usage Examples
+
+### Initialization
+
+`GameAnalyticsComponent` is initialized in Unity's `Awake` method, creating a `GameAnalyticsManager` instance.
 
 ```csharp
 public void Init()
@@ -22,137 +51,94 @@ public void Init()
 }
 ```
 
-## 计时功能
+### Timer Functions
 
-### 开始计时
-
-`StartTimer`方法允许开发者为某个事件开始计时。在事件开始时调用此方法，并传入事件名称。
+#### Start Timer
 
 ```csharp
 public void StartTimer(string eventName)
 {
-    if (!_isInit)
-    {
-        return;
-    }
-
+    if (!_isInit) return;
     _gameAnalyticsManager.StartTimer(eventName);
 }
 ```
 
-### 结束计时
-
-结束特定事件的计时，使用`StopTimer`方法，并传入相应的事件名称。
+#### Stop Timer
 
 ```csharp
 public void StopTimer(string eventName)
 {
-    if (!_isInit)
-    {
-        return;
-    }
-
+    if (!_isInit) return;
     _gameAnalyticsManager.StopTimer(eventName);
 }
 ```
 
-## 事件上报
+### Event Reporting
 
-### 简单事件上报
-
-用于上报不包含额外数据的简单事件。只需调用`Event`方法并传入事件名称。
+#### Simple Event
 
 ```csharp
 public void Event(string eventName)
 {
-    if (!_isInit)
-    {
-        return;
-    }
-
+    if (!_isInit) return;
     _gameAnalyticsManager.Event(eventName);
 }
 ```
 
-### 带数值的事件上报
-
-上报包含数值信息的事件。调用`Event`方法，并传入事件名称以及相关的数值。
+#### Event with Value
 
 ```csharp
 public void Event(string eventName, float eventValue)
 {
-    if (!_isInit)
-    {
-        return;
-    }
-
+    if (!_isInit) return;
     _gameAnalyticsManager.Event(eventName, eventValue);
 }
 ```
 
-### 带自定义字段的事件上报
-
-上报包含自定义字段的事件。在调用`Event`方法时传入事件名称和一个字典类型的自定义字段数据。
+#### Event with Custom Fields
 
 ```csharp
 public void Event(string eventName, Dictionary<string, string> customF)
 {
-    if (!_isInit)
-    {
-        return;
-    }
-
-    // 将字符串字典转换为对象字典
+    if (!_isInit) return;
     var value = new Dictionary<string, object>();
     foreach (var kv in customF)
     {
         value[kv.Key] = kv.Value;
     }
-
     _gameAnalyticsManager.Event(eventName, value);
 }
 ```
 
-### 带数值和自定义字段的事件上报
-
-上报一个同时包含数值信息和自定义字段的事件，需要调用`Event`方法并传入事件名称、事件数值以及自定义字段的字典。
+#### Event with Value and Custom Fields
 
 ```csharp
 public void Event(string eventName, float eventValue, Dictionary<string, string> customF)
 {
-    if (!_isInit)
-    {
-        return;
-    }
-
+    if (!_isInit) return;
     var value = new Dictionary<string, object>();
     foreach (var kv in customF)
     {
         value[kv.Key] = kv.Value;
     }
-
     _gameAnalyticsManager.Event(eventName, eventValue, value);
 }
 ```
 
-## 使用事项
+> **Note:** Ensure the component is properly initialized before using any methods. Event names should be representative and unique for accurate data analysis. Use the namespace `GameFrameX.GameAnalytics.Runtime` and ensure `GameAnalyticsManager` is correctly instantiated and registered with the framework.
 
-- 请确保在使用组件的任何方法之前，组件已被正确初始化。
-- 若`_isInit`为`false`，则不进行任何操作，确保了只有在组件初始化后事件上报或计时才有效作用。
-- 上报的事件名称应该具有代表性和唯一性，以确保数据分析的准确性。
+## Documentation & Resources
 
-## 集成提示
+- [Documentation](https://gameframex.doc.alianblank.com)
 
-- 工程中应引入命名空间`GameFrameX.GameAnalytics.Runtime`。
-- 确保`GameAnalyticsManager`被正确实例化，并已经通过`GameFramework`注册。
-- 对于自定义字段，使用`Dictionary<string, string>`类型保持键值对的数据结构。
+## Community & Support
 
-# 使用方式(任选其一)
+- [QQ Group](https://qm.qq.com/q/5kbDVBdUeS)
 
-1. 直接在 `manifest.json` 的文件中的 `dependencies` 节点下添加以下内容
-   ```json
-      {"com.gameframex.unity.gameanalytics": "https://github.com/AlianBlank/com.gameframex.unity.gameanalytics.git"}
-    ```
-2. 在Unity 的`Packages Manager` 中使用`Git URL` 的方式添加库,地址为：https://github.com/AlianBlank/com.gameframex.unity.gameanalytics.git
+## Changelog
 
-3. 直接下载仓库放置到Unity 项目的`Packages` 目录下。会自动加载识别
+See [Releases](https://github.com/gameframex/com.gameframex.unity.gameanalytics/releases) for changelog.
+
+## License
+
+This project is licensed under the [MIT License](https://github.com/gameframex/com.gameframex.unity.gameanalytics/blob/main/LICENSE).
