@@ -57,7 +57,6 @@ Then add the package to `dependencies`:
 }
 ```
 
-
 ## 使用例
 
 ### 初期化
@@ -162,4 +161,4 @@ public void Event(string eventName, float eventValue, Dictionary<string, string>
 
 ## ライセンス
 
-このプロジェクトは [MIT ライセンス](https://github.com/gameframex/com.gameframex.unity.gameanalytics/blob/main/LICENSE) の下で公開されています。
+詳しくは [LICENSE.md](LICENSE.md) をご参照ください。

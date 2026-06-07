@@ -57,7 +57,6 @@ Then add the package to `dependencies`:
 }
 ```
 
-
 ## 使用範例
 
 ### 初始化
@@ -162,4 +161,4 @@ public void Event(string eventName, float eventValue, Dictionary<string, string>
 
 ## 開源協議
 
-本專案基於 [MIT 協議](https://github.com/gameframex/com.gameframex.unity.gameanalytics/blob/main/LICENSE) 開源。
+詳見 [LICENSE.md](LICENSE.md) 檔案。

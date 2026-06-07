@@ -57,7 +57,6 @@ Then add the package to `dependencies`:
 }
 ```
 
-
 ## Usage Examples
 
 ### Initialization
@@ -162,4 +161,4 @@ See [Releases](https://github.com/gameframex/com.gameframex.unity.gameanalytics/
 
 ## License
 
-This project is licensed under the [MIT License](https://github.com/gameframex/com.gameframex.unity.gameanalytics/blob/main/LICENSE).
+See [LICENSE.md](LICENSE.md) for license information.
