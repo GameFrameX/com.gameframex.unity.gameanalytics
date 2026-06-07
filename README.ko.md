@@ -1,23 +1,24 @@
 <div align="center">
 
-<img src="https://download.alianblank.com/gameframex/gameframex_logo_320.png" alt="GameFrameX Logo" width="160"/>
+<img src="https://download.alianblank.com/gameframex/gameframex_logo_320.png" alt="Game Frame X Logo" width="160" />
 
 # Game Frame X GameAnalytics 게임 분석 컴포넌트
 
-[![License](https://img.shields.io/github/license/gameframex/com.gameframex.unity.gameanalytics)](https://github.com/gameframex/com.gameframex.unity.gameanalytics/blob/main/LICENSE)
-[![Version](https://img.shields.io/github/v/release/gameframex/com.gameframex.unity.gameanalytics)](https://github.com/gameframex/com.gameframex.unity.gameanalytics/releases)
-[![Documentation](https://img.shields.io/badge/Documentation-문서-blue)](https://gameframex.doc.alianblank.com)
+[![License](https://img.shields.io/github/license/GameFrameX/com.gameframex.unity.gameanalytics)](https://github.com/GameFrameX/com.gameframex.unity.gameanalytics/blob/main/LICENSE.md)
+[![Version](https://img.shields.io/github/v/release/GameFrameX/com.gameframex.unity.gameanalytics)](https://github.com/GameFrameX/com.gameframex.unity.gameanalytics/releases)
+[![Documentation](https://img.shields.io/badge/Documentation-docs-blue)](https://gameframex.doc.alianblank.com)
 
 인디 게임 개발자를 위한 올인원 솔루션 · 인디 개발자의 꿈을 실현
 
-[문서](https://gameframex.doc.alianblank.com) · [빠른 시작](#빠른-시작) · [QQ 그룹](https://qm.qq.com/q/5kbDVBdUeS) · **언어**
+<br />
+
+[문서](https://gameframex.doc.alianblank.com) · [빠른 시작](#빠른-시작) · [QQ 그룹](https://qm.qq.com/q/5kbDVBdUeS)
+
+<br />
 
 [English](README.md) | [简体中文](README.zh-CN.md) | [繁體中文](README.zh-TW.md) | [日本語](README.ja.md) | **한국어**
 
 </div>
-
----
-
 ## 프로젝트 개요
 
 **GameAnalytics 게임 분석 컴포넌트 (GameAnalytics Component)** - 게임 개발자가 게임 데이터 분석 기능을 통합하고 사용할 수 있는 인터페이스를 제공합니다. 다양한 유형의 이벤트 보고 및 타이머 기능이 포함되어 있습니다.
