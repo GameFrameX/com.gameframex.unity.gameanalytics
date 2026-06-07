@@ -159,6 +159,13 @@ public void Event(string eventName, float eventValue, Dictionary<string, string>
 
 변경 로그는 [Releases](https://github.com/gameframex/com.gameframex.unity.gameanalytics/releases)에서 확인하세요.
 
+
+## 의존성
+
+| 패키지 | 설명 |
+|--------|------|
+| (无) | - |
+
 ## 라이선스
 
 자세한 내용은 [LICENSE.md](LICENSE.md) 파일을 참조하세요.
