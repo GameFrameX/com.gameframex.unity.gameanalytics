@@ -12,7 +12,7 @@
 
 <br />
 
-[文檔](https://gameframex.doc.alianblank.com) · [快速開始](#快速開始) · [QQ群](https://qm.qq.com/q/5kbDVBdUeS)
+[文檔](https://gameframex.doc.alianblank.com) · [快速開始](#快速開始) · QQ群: 467608841 / 233840761
 
 <br />
 
@@ -132,7 +132,7 @@ public void Event(string eventName, float eventValue, Dictionary<string, string>
 
 ## 社區與支援
 
-- [QQ群](https://qm.qq.com/q/5kbDVBdUeS)
+- QQ群: 467608841 / 233840761
 
 ## 更新日誌
 

@@ -12,7 +12,7 @@
 
 <br />
 
-[문서](https://gameframex.doc.alianblank.com) · [빠른 시작](#빠른-시작) · [QQ 그룹](https://qm.qq.com/q/5kbDVBdUeS)
+[문서](https://gameframex.doc.alianblank.com) · [빠른 시작](#빠른-시작) · QQ 그룹: 467608841 / 233840761
 
 <br />
 
@@ -132,7 +132,7 @@ public void Event(string eventName, float eventValue, Dictionary<string, string>
 
 ## 커뮤니티 및 지원
 
-- [QQ 그룹](https://qm.qq.com/q/5kbDVBdUeS)
+- QQ 그룹: 467608841 / 233840761
 
 ## 변경 로그
 
