@@ -20,6 +20,7 @@
 [English](README.md) | [简体中文](README.zh-CN.md) | **繁體中文** | [日本語](README.ja.md) | [한국어](README.ko.md)
 
 </div>
+
 ## 項目簡介
 
 **GameAnalytics 遊戲資料分析組件 (GameAnalytics Component)** - 提供遊戲開發者整合和使用遊戲資料分析功能的介面。它包含了不同類型的事件上報和計時器功能。

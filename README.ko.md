@@ -20,6 +20,7 @@
 [English](README.md) | [简体中文](README.zh-CN.md) | [繁體中文](README.zh-TW.md) | [日本語](README.ja.md) | **한국어**
 
 </div>
+
 ## 프로젝트 개요
 
 **GameAnalytics 게임 분석 컴포넌트 (GameAnalytics Component)** - 게임 개발자가 게임 데이터 분석 기능을 통합하고 사용할 수 있는 인터페이스를 제공합니다. 다양한 유형의 이벤트 보고 및 타이머 기능이 포함되어 있습니다.
