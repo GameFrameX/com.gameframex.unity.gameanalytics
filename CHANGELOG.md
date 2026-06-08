@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/gameframex/com.gameframex.unity.gameanalytics/compare/1.2.0...1.2.1) (2026-06-08)
+
+
+### Bug Fixes
+
+* 补全包规范文件（LICENSE/CHANGELOG/URL 字段/unity 字段） ([7d38fd2](https://github.com/gameframex/com.gameframex.unity.gameanalytics/commit/7d38fd253095a8f45dc84b108c56317ef348ab96))
+
 # [1.2.0](https://github.com/gameframex/com.gameframex.unity.gameanalytics/compare/1.1.0...1.2.0) (2026-01-29)
 
 
