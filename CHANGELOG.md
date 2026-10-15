@@ -1,3 +1,17 @@
+# [2.0.0](https://github.com/gameframex/com.gameframex.unity.gameanalytics/compare/1.2.1...2.0.0) (2026-10-15)
+
+
+### Features
+
+* **runtime:** 新增统计渠道注册表替换序列化配置 ([28887f8](https://github.com/gameframex/com.gameframex.unity.gameanalytics/commit/28887f84f949bbbd96cf460bb3359ea454e4e316))
+* **runtime:** 模块声明迁移到接口化契约 ([f01683a](https://github.com/gameframex/com.gameframex.unity.gameanalytics/commit/f01683a44039bdfd6408fb7dd304f004612c40bd))
+
+
+### BREAKING CHANGES
+
+* **runtime:** 移除 GameAnalyticsComponent 上序列化的 GameAnalyticsComponentProvider 配置列表，渠道改为经渠道包 Bootstrap 强类型配置注册。
+* **runtime:** 删除 GameFrameworkModule 抽象基类依赖，继承该基类的模块需迁移到 IGameFrameworkModule 及能力接口。
+
 # [2.0.0](https://github.com/gameframex/com.gameframex.unity.gameanalytics/compare/1.2.1...2.0.0) (2026-10-08)
 
 
