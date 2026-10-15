@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using GameFrameX.Runtime;
 using UnityEngine;
@@ -10,11 +9,11 @@ namespace GameFrameX.GameAnalytics.Runtime
     /// 游戏数据分析组件。
     /// </summary>
     [DisallowMultipleComponent]
-    [AddComponentMenu("Game Framework/GameAnalytics")]
+    [AddComponentMenu("GameFrameX/GameAnalytics")]
+    [GameFrameXAutoComponent(400)]
     public sealed class GameAnalyticsComponent : GameFrameworkComponent
     {
         private bool m_IsInit = false;
-        [SerializeField] private List<GameAnalyticsComponentProvider> m_gameAnalyticsComponentProviders = new List<GameAnalyticsComponentProvider>();
         private List<IGameAnalyticsManager> m_GameAnalyticsManager;
 
         protected override void Awake()
@@ -44,6 +43,10 @@ namespace GameFrameX.GameAnalytics.Runtime
         /// <summary>
         /// 初始化
         /// </summary>
+        /// <remarks>
+        /// 渠道发现来源为 <see cref="GameAnalyticsRegistry"/>：渠道包通过自身 Bootstrap 在启动期自注册，注册即生效（广播语义，无路由，全部注册渠道都会收到事件）。
+        /// 渠道实例化与配置注入发生在注册表工厂闭包内（编译期类型安全），本组件不再通过类型名字符串反射发现渠道。
+        /// </remarks>
         public void Init()
         {
             if (m_IsInit)
@@ -51,29 +54,9 @@ namespace GameFrameX.GameAnalytics.Runtime
                 return;
             }
 
-            foreach (var gameAnalyticsComponentProvider in m_gameAnalyticsComponentProviders)
+            foreach (var gameAnalyticsManager in GameAnalyticsRegistry.GetAllManagers())
             {
-                if (gameAnalyticsComponentProvider.ComponentType.IsNotNullOrWhiteSpace())
-                {
-                    var gameAnalyticsComponentType = Utility.Assembly.GetType(gameAnalyticsComponentProvider.ComponentType);
-                    if (gameAnalyticsComponentType == null)
-                    {
-                        Log.Error($"Can not find component type '{gameAnalyticsComponentProvider.ComponentType}'.");
-                        continue;
-                    }
-
-                    if (Activator.CreateInstance(gameAnalyticsComponentType) is IGameAnalyticsManager gameAnalyticsManager)
-                    {
-                        Dictionary<string, string> args = new Dictionary<string, string>();
-                        foreach (var param in gameAnalyticsComponentProvider.Setting)
-                        {
-                            args[param.Key] = param.Value;
-                        }
-
-                        gameAnalyticsManager.Init(args);
-                        m_GameAnalyticsManager.Add(gameAnalyticsManager);
-                    }
-                }
+                m_GameAnalyticsManager.Add(gameAnalyticsManager);
             }
 
             m_IsInit = true;
@@ -356,31 +339,5 @@ namespace GameFrameX.GameAnalytics.Runtime
                 }
             }
         }
-    }
-
-    [Serializable]
-    public class GameAnalyticsComponentProvider
-    {
-        /// <summary>
-        /// 实现组件类型
-        /// </summary>
-        public string ComponentType;
-
-        /// <summary>
-        /// 这个是给编辑器用的
-        /// </summary>
-        public int ComponentTypeNameIndex = 0;
-
-        /// <summary>
-        /// 参数
-        /// </summary>
-        public List<GameAnalyticsComponentParamKV> Setting = new List<GameAnalyticsComponentParamKV>();
-    }
-
-    [Serializable]
-    public class GameAnalyticsComponentParamKV
-    {
-        public string Key;
-        public string Value;
     }
 }

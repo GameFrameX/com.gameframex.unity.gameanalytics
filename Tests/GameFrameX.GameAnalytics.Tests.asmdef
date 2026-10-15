@@ -1,7 +1,8 @@
 {
     "name": "GameFrameX.GameAnalytics.Tests",
     "references": [
-        "GameFrameX.GameAnalytics.Runtime"
+        "GameFrameX.GameAnalytics.Runtime",
+        "GameFrameX.Runtime"
     ],
     "rootNamespace": "GameFrameX.GameAnalytics.Tests",
     "includePlatforms": [
