@@ -157,6 +157,12 @@ public void Event(string eventName, float eventValue, Dictionary<string, string>
 
 - QQ群: 467608841 / 233840761
 
+## 渠道注册表
+
+自本版本起，`GameAnalyticsComponent` 的渠道发现不再使用 Inspector 序列化的 provider 类型名列表。渠道包通过自身的 Bootstrap（`RuntimeInitializeOnLoadMethod`，`BeforeSceneLoad`）在启动期向 `GameAnalyticsRegistry` 自注册（引用即注册：未安装的渠道包代码被裁剪，注册不会发生）。注册即生效，为广播语义：每个统计事件都会广播到全部注册渠道（无路由，与支付域的按渠道路由语义不同）。注册表懒实例化渠道管理器，且不参与 GameFrameworkEntry 模块 Update/Shutdown 生命周期。
+
+**破坏性变更 / 迁移说明：** `GameAnalyticsComponent` 上序列化的 provider 列表（`GameAnalyticsComponentProvider`：`ComponentType` 类型名字符串 + 键值对配置）已移除，不再从 Inspector 配置渠道。请改为在游戏启动代码中对渠道包 Bootstrap 的强类型配置赋值（见各渠道包 README）。
+
 ## 更新日志
 
 查看 [Releases](https://github.com/gameframex/com.gameframex.unity.gameanalytics/releases) 了解更新日志。

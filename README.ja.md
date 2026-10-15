@@ -157,6 +157,12 @@ public void Event(string eventName, float eventValue, Dictionary<string, string>
 
 - QQグループ: 467608841 / 233840761
 
+## チャネルレジストリ
+
+本バージョンより、`GameAnalyticsComponent` のチャネル検出は Inspector でシリアライズされたプロバイダー型名リストを使用しなくなりました。チャネルパッケージは自身の Bootstrap（`RuntimeInitializeOnLoadMethod`、`BeforeSceneLoad`）により起動時に `GameAnalyticsRegistry` へ自己登録します（参照即登録：未インストールのチャネルパッケージのコードはストリップされ、登録は発生しません）。登録は即時に有効化され、ブロードキャスト语义です：すべての統計イベントが登録済みの全チャネルへ配信されます（ルーティングなし。決済ドメインのチャネル別ルーティングとは異なります）。レジストリはチャネルマネージャーを遅延インスタンス化し、GameFrameworkEntry のモジュール Update/Shutdown ライフサイクルには参加しません。
+
+**破壊的変更 / 移行ガイド:** `GameAnalyticsComponent` のシリアライズされたプロバイダーリスト（`GameAnalyticsComponentProvider`：`ComponentType` 型名文字列 + キー値ペア設定）は削除されました。Inspector でのチャネル設定は行えません。代わりにゲームの起動コードでチャネルパッケージ Bootstrap の強型付け設定に値を代入してください（各チャネルパッケージの README を参照）。
+
 ## 変更履歴
 
 変更履歴は [Releases](https://github.com/gameframex/com.gameframex.unity.gameanalytics/releases) をご覧ください。

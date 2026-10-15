@@ -157,6 +157,12 @@ public void Event(string eventName, float eventValue, Dictionary<string, string>
 
 - QQ Group: 467608841 / 233840761
 
+## Channel Registry
+
+Channel discovery no longer uses Inspector-serialized provider type names. Channel packages self-register into `GameAnalyticsRegistry` at startup via their own Bootstrap (`RuntimeInitializeOnLoadMethod`, `BeforeSceneLoad`) — reference means registration: unreferenced channel packages are stripped and never register. Registration means activation with broadcast semantics: every analytics event is fanned out to all registered channels (no routing, unlike the payment domain's per-channel routing). The registry creates channel managers lazily and does not participate in the framework module Update/Shutdown lifecycle.
+
+**Breaking change / migration:** the serialized provider list on `GameAnalyticsComponent` (`GameAnalyticsComponentProvider`: `ComponentType` type-name string + key-value settings) has been removed. Configure channels through the channel package's Bootstrap strongly typed settings instead (see each channel package's README).
+
 ## Changelog
 
 See [Releases](https://github.com/gameframex/com.gameframex.unity.gameanalytics/releases) for changelog.

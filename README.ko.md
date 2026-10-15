@@ -157,6 +157,12 @@ public void Event(string eventName, float eventValue, Dictionary<string, string>
 
 - QQ 그룹: 467608841 / 233840761
 
+## 채널 레지스트리
+
+이 버전부터 `GameAnalyticsComponent`의 채널 검색은 Inspector에 직렬화된 provider 타입 이름 목록을 사용하지 않습니다. 채널 패키지는 자체 Bootstrap(`RuntimeInitializeOnLoadMethod`, `BeforeSceneLoad`)을 통해 시작 시점에 `GameAnalyticsRegistry`에 자동 등록됩니다(참조 곧 등록: 설치되지 않은 채널 패키지 코드는 제거되어 등록이 발생하지 않음). 등록 즉시 활성화되며 브로드캐스트 방식으로, 모든 통계 이벤트가 등록된 전체 채널에 전달됩니다(라우팅 없음, 결제 도메인의 채널별 라우팅과 다름). 레지스트리는 채널 매니저를 지연 인스턴스화하며 GameFrameworkEntry 모듈 Update/Shutdown 라이프사이클에 참여하지 않습니다.
+
+**파괴적 변경 / 마이그레이션:** `GameAnalyticsComponent`에 직렬화되던 provider 목록(`GameAnalyticsComponentProvider`: `ComponentType` 타입 이름 문자열 + 키-값 설정)이 제거되어 Inspector에서 채널을 구성할 수 없습니다. 대신 게임 시작 코드에서 채널 패키지 Bootstrap의 강타입 설정에 값을 할당하세요(각 채널 패키지 README 참조).
+
 ## 변경 로그
 
 변경 로그는 [Releases](https://github.com/gameframex/com.gameframex.unity.gameanalytics/releases)에서 확인하세요.
