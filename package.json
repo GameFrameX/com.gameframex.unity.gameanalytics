@@ -1,34 +1,34 @@
 {
-  "name": "com.gameframex.unity.gameanalytics",
-  "displayName": "Game Frame X Game Analytics",
-  "category": "Game Framework X",
-  "description": "Game Frame X Game Analytics Component",
-  "version": "1.2.1",
-  "unity": "2019.4",
-  "keywords": [
-    "Game Framework X"
-  ],
-  "repository": {
     "name": "com.gameframex.unity.gameanalytics",
-    "url": "git+https://github.com/gameframex/com.gameframex.unity.gameanalytics.git",
-    "type": "git"
-  },
-  "author": {
-    "name": "Blank",
-    "email": "alianblank@outlook.com",
-    "url": "https://gameframex.doc.alianblank.com"
-  },
-  "dependencies": {},
-  "devDependencies": {
-    "semantic-release": "^24.2.0",
-    "@semantic-release/changelog": "^6.0.3",
-    "@semantic-release/git": "^10.0.1"
-  },
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://npm.cnb.cool/GameFrameX/npm/-/packages/"
-  },
-  "documentationUrl": "https://gameframex.doc.alianblank.com",
-  "changelogUrl": "https://github.com/gameframex/com.gameframex.unity.gameanalytics/blob/main/CHANGELOG.md",
-  "licensesUrl": "https://github.com/gameframex/com.gameframex.unity.gameanalytics/blob/main/LICENSE.md"
+    "displayName": "Game Frame X Game Analytics",
+    "category": "Game Frame X",
+    "description": "GameFrameX GameAnalytics — game data analytics facade and abstraction package. Provides the IGameAnalyticsManager contract, the BaseGameAnalyticsManager abstract module, a GameAnalyticsRegistry with provider registration, and the GameAnalyticsComponent facade exposing event reporting in simple, value-based, and custom-dictionary forms. Also covers event timers with Start / Pause / Resume / Stop, player id binding via SetPlayerId, and global SetPublicProperties / ClearPublicProperties; concrete analytics providers ship as separate channel packages. Docs: https://gameframex.doc.alianblank.com\n\nGameFrameX GameAnalytics — 游戏数据分析门面与抽象功能包。提供 IGameAnalyticsManager 契约、BaseGameAnalyticsManager 抽象模块、带提供者注册的 GameAnalyticsRegistry，以及 GameAnalyticsComponent 门面，支持简单事件、数值事件与自定义字典事件上报。同时提供 Start / Pause / Resume / Stop 事件计时器、经 SetPlayerId 绑定玩家标识，以及全局 SetPublicProperties / ClearPublicProperties；具体统计渠道以独立功能包提供。文档：https://gameframex.doc.alianblank.com",
+    "version": "2.0.0",
+    "unity": "2019.4",
+    "keywords": [
+        "Game Frame X"
+    ],
+    "repository": {
+        "name": "com.gameframex.unity.gameanalytics",
+        "url": "git+https://github.com/gameframex/com.gameframex.unity.gameanalytics.git",
+        "type": "git"
+    },
+    "author": {
+        "name": "Blank",
+        "email": "alianblank@outlook.com",
+        "url": "https://gameframex.doc.alianblank.com"
+    },
+    "dependencies": {},
+    "devDependencies": {
+        "semantic-release": "^24.2.0",
+        "@semantic-release/changelog": "^6.0.3",
+        "@semantic-release/git": "^10.0.1"
+    },
+    "publishConfig": {
+        "access": "public",
+        "registry": "https://npm.cnb.cool/GameFrameX/npm/-/packages/"
+    },
+    "documentationUrl": "https://gameframex.doc.alianblank.com",
+    "changelogUrl": "https://github.com/gameframex/com.gameframex.unity.gameanalytics/blob/main/CHANGELOG.md",
+    "licensesUrl": "https://github.com/gameframex/com.gameframex.unity.gameanalytics/blob/main/LICENSE.md"
 }
