@@ -7,7 +7,7 @@ namespace GameFrameX.GameAnalytics.Runtime
     /// <summary>
     /// 
     /// </summary>
-    public abstract class BaseGameAnalyticsManager : GameFrameworkModule, IGameAnalyticsManager
+    public abstract class BaseGameAnalyticsManager : IGameFrameworkModule, IGameAnalyticsManager
     {
         protected bool m_IsInit = false;
 
@@ -15,15 +15,6 @@ namespace GameFrameX.GameAnalytics.Runtime
         /// 公共属性
         /// </summary>
         protected readonly Dictionary<string, object> m_PublicProperties = new Dictionary<string, object>();
-
-        protected override void Update(float elapseSeconds, float realElapseSeconds)
-        {
-        }
-
-        protected override void Shutdown()
-        {
-        }
-
 
         /// <summary>
         /// 初始化
