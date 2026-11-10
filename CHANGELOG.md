@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/gameframex/com.gameframex.unity.gameanalytics/compare/2.0.0...2.0.1) (2026-11-10)
+
+
+### Bug Fixes
+
+* **gameanalytics:** 添加完整 link.xml 防代码裁剪保护 ([43ca42f](https://github.com/gameframex/com.gameframex.unity.gameanalytics/commit/43ca42f235eb24a85e0cd8af564f0005301e2300))
+
 # [2.0.0](https://github.com/gameframex/com.gameframex.unity.gameanalytics/compare/1.2.1...2.0.0) (2026-10-15)
 
 
