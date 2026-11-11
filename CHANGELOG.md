@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/gameframex/com.gameframex.unity.gameanalytics/compare/2.0.1...2.1.0) (2026-11-11)
+
+
+### Features
+
+* **gameanalytics:** 管理器创建时输出渠道日志 ([448e229](https://github.com/gameframex/com.gameframex.unity.gameanalytics/commit/448e229cea2ae6f20da3f492e2fdb6c9f75f192d))
+
 ## [2.0.1](https://github.com/gameframex/com.gameframex.unity.gameanalytics/compare/2.0.0...2.0.1) (2026-11-10)
 
 
